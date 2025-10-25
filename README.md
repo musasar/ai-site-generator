@@ -1,3 +1,102 @@
+# AI Site Generator
+
+Lightweight local website generator that uses an LLM (Ollama CLI or mock mode) to produce a small static site (index.html, style.css, index.js) from a user prompt. This repo contains a FastAPI backend and a React (Vite) frontend to create and preview generated sites.
+
+## Quick summary
+- Backend: Python + FastAPI (serves generated sites under `/sites` and provides `/generate` POST endpoint)
+- Frontend: React + Vite (UI to submit prompts, choose a theme, and preview generated site in an iframe)
+- Generation: Ollama CLI integration (optional). A mock mode is available for development and CI.
+
+## Quickstart (recommended)
+These steps start the project locally using the provided helper scripts.
+
+Linux / macOS
+```bash
+# make the script executable (first time)
+chmod +x start-project.sh
+./start-project.sh
+```
+
+Windows (PowerShell)
+```powershell
+# If you hit execution policy blocks, run once with elevated privileges:
+# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\start-project.ps1
+```
+
+Manual (if you prefer)
+```bash
+# backend (create/activate your venv first)
+python -m venv .venv; source .venv/bin/activate
+pip install -r requirements.txt
+python backend/app.py
+
+# frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+Open the frontend URL (Vite will output the address, typically http://localhost:5173). The backend is available at http://localhost:8000 and API docs at http://localhost:8000/docs.
+
+## Mock mode (recommended for local dev without Ollama)
+Set the environment variable to force mock templates instead of calling Ollama:
+
+PowerShell
+```powershell
+$env:AI_SITE_GENERATOR_MOCK = 'true'
+```
+
+Linux / macOS
+```bash
+export AI_SITE_GENERATOR_MOCK=true
+```
+
+When mock mode is enabled the backend returns one of three built-in templates (modern / classic / creative) and does not call Ollama.
+
+## Tests
+There is a small pytest integration test that validates `generate_site` in mock mode.
+
+```bash
+# from repo root
+pip install -r requirements.txt
+pytest -q
+```
+
+CI: A minimal GitHub Actions workflow is present at `.github/workflows/ci.yml` which runs the tests on push/PR and sets `AI_SITE_GENERATOR_MOCK=true` in the job.
+
+## Scripts
+- `start-project.sh` — Bash helper that checks Python/Node, enables mock mode if Ollama not present, creates a venv, installs Python deps and starts backend + frontend.
+- `start-project.ps1` — PowerShell helper for Windows with similar behavior.
+- `backend/fix_generated_html.py` — Utility that scans any `generated_sites/**/index.html` and ensures meta charset/viewport tags are placed in `<head>`.
+
+## Generated output
+Generated sites are written into `backend/generated_sites/<site_name>/`. These are ephemeral development artifacts and are ignored by git via `.gitignore`.
+
+To remove generated outputs:
+
+PowerShell
+```powershell
+Remove-Item -Recurse -Force .\backend\generated_sites\* -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force .\backend\backend\generated_sites\* -ErrorAction SilentlyContinue
+```
+
+Linux / macOS
+```bash
+rm -rf backend/generated_sites/* backend/backend/generated_sites/*
+```
+
+## Development notes
+- If you run without mock mode the backend will check for `ollama` on PATH and return a friendly error if it is not installed.
+- The `/generate` endpoint validates the prompt and returns HTTP 400 for empty prompts and HTTP 500 with helpful details for generation errors.
+- The frontend posts form data (`prompt` and `template`) to `/generate` and previews the returned static site URL in an iframe.
+
+## Contributing
+- Run tests before opening a PR
+- Keep generated files out of commits (they're ignored by `.gitignore`)
+
+## License
+MIT
 Harika 💥 — çok net bir vizyon bu.
 
 Senin hedefin şu şekilde özetlenebilir:
