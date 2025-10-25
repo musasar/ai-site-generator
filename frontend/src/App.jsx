@@ -11,16 +11,17 @@ export default function App() {
 
   const handleGenerate = async () => {
     setLoading(true);
-  const formData = new FormData();
-  formData.append("prompt", prompt);
-  formData.append("template", selectedTemplate);
+    const formData = new FormData();
+    formData.append("prompt", prompt);
+    formData.append("template", selectedTemplate);
 
     try {
-  const res = await axios.post("http://localhost:8000/generate", formData);
+      const res = await axios.post("http://localhost:8000/generate", formData);
       setUrl(res.data.url);
     } catch (err) {
       console.error(err);
-      alert("Oluşturma sırasında hata oldu. Konsolu kontrol edin.");
+      const msg = err?.response?.data?.detail || err.message || "Bilinmeyen hata";
+      alert(`Oluşturma sırasında hata: ${msg}`);
     } finally {
       setLoading(false);
     }
@@ -64,6 +65,12 @@ export default function App() {
         <div className="mt-6 w-full flex flex-col items-center">
           <p>✅ Site oluşturuldu! Önizleme aşağıda.</p>
           <Preview url={url} />
+        </div>
+      )}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner" />
+          <p>AI site oluşturuyor...</p>
         </div>
       )}
     </div>

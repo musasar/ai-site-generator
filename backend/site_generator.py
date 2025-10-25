@@ -4,6 +4,16 @@ from datetime import datetime
 import re
 import os
 
+
+def check_ollama_installed() -> bool:
+    """Return True if the `ollama` CLI appears to be available on PATH."""
+    try:
+        # Prefer a lightweight version check
+        res = subprocess.run(["ollama", "--version"], capture_output=True, text=True)
+        return res.returncode == 0
+    except FileNotFoundError:
+        return False
+
 def ollama(prompt):
     """Ollama CLI ile modelden çıktı alır."""
     result = subprocess.run(
@@ -34,6 +44,12 @@ def generate_site(prompt_text, template: str = "modern"):
     if mock_mode:
         html, css, js = _get_mock_templates(prompt_text, template)
     else:
+        # If Ollama is not installed, provide a clear error rather than failing cryptically
+        if not check_ollama_installed():
+            raise RuntimeError(
+                "Ollama CLI bulunamadı. Geliştirme sırasında mock modu kullanmak için environment variable AI_SITE_GENERATOR_MOCK=true ayarlayabilirsiniz, veya Ollama'yı kurun: https://ollama.com"
+            )
+
         # Add template guidance to prompts when using Ollama
         html_prompt = f"{html_prompt} {_get_template_guidance(template)}"
         css_prompt = f"{css_prompt} {_get_template_guidance(template)}"

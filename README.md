@@ -119,6 +119,15 @@ npm run dev
 
 Ardından tarayıcıda Vite'in verdiği localhost adresine gidin (ör. http://localhost:5173). Prompt girip "Site Oluştur" butonuna bastığınızda backend modeli çağıracak, üretim klasörünü `backend/generated_sites/site_<timestamp>` içinde oluşturacak ve önizlemeyi iframe içinde `http://localhost:8000/sites/<site_name>/index.html` ile gösterecektir.
 
-Notlar:
-- Oluşturulan HTML dosyalarında meta charset/viewport öğeleri yanlışlıkla `<body>` içinde oluşursa, sistem bunları otomatik olarak `<head>` içine taşıyacak (post-processing). Bu, editör/linters uyarılarını azaltır ve tarayıcı uyumluluğunu artırır.
-- Eğer Pylance editörde `Import "fastapi" could not be resolved` gibi uyarılar görüyorsanız, çalışma ortamınızın (VS Code Python interpreter) projenin virtualenv'ine işaret ettiğinden emin olun ve `pip install -r requirements.txt` çalıştırın.
+
+## Running tests
+
+There is a small integration test suite that verifies `generate_site` in mock mode. To run the tests locally:
+
+```powershell
+# from project root
+pip install -r requirements.txt
+pytest -q
+```
+
+The tests will create and remove temporary folders under `backend/generated_sites` and run quickly in mock mode.
