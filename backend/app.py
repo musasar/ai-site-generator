@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from site_generator import generate_site
+from backend.site_generator import generate_site
 import uvicorn
 import os
 import asyncio
@@ -17,7 +17,16 @@ app.add_middleware(
 )
 
 # Statik olarak oluşturulan siteleri /sites altında sun
-sites_dir = os.path.join("backend", "generated_sites")
+# Support both expected path and nested path (some runs created backend/backend/generated_sites)
+candidates = [os.path.join("backend", "generated_sites"), os.path.join("backend", "backend", "generated_sites")]
+sites_dir = None
+for c in candidates:
+    if os.path.exists(c):
+        sites_dir = c
+        break
+# default to the primary path if none exist yet
+if not sites_dir:
+    sites_dir = candidates[0]
 os.makedirs(sites_dir, exist_ok=True)
 app.mount("/sites", StaticFiles(directory=sites_dir), name="sites")
 
