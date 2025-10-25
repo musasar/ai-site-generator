@@ -1,0 +1,28 @@
+{
+  "version": "0.2",
+  "language": "tr",
+  "words": [
+    "erişimi","için","Statik","olarak","oluşturulan","siteleri","altında",
+    "Kullanıcı","göre","sitesi","üretir","bloklayıcı","parçacığında","çalıştırılır",
+    "olamaz","Lütfen","açıklama","girin","çalışması","olabilir","çalıştırıyoruz",
+    "oluşturma","hatası","kurumsal","temiz","hızlı","açılan","sayfalar","Beyaz",
+    "tipografiye","odaklı","tasarım","Kurumsal","Profesyonel","işletmeler","düzenli",
+    "güven","veren","bilgi","odaklı","şablon","Renkli","dinamik","etkileşimli",
+    "öğelerle","dolu","yaratıcı","Tema","sayfalık","portföy","fotoğrafçı","Kahve",
+    "dükkanı","sıcak","samimi","tanıtım","Diyetisyen","profesyonel","sayfa","Bilinmeyen",
+    "hata","Oluşturma","sırasında","panoya","kopyalandı","kopyalanamadı","örnek","kahve",
+    "markası","Örnekler","karakter","Stili","ücretsiz","deneme","Oluşturuluyor","Oluştur",
+    "Temizle","oluşturuldu","Önizleme","bağlantıyı","kullanın","Kopyala","oluşturuyor",
+    "Başlatma","Scripti","Başlatılıyor","kontrolü","kontrol","ediliyor","LASTEXITCODE",
+    "bulunamadı","bulundu","yükleyin","opsiyonel","modu","kullanılacak","kurmak",
+    "başlatma","başlatılıyor","Sanal","ortam","oluştur","aktif","venv","Bağımlılıkları",
+    "yükle","bağımlılıkları","yükleniyor","uvicorn","modülü","işlem","Kurulum","Kontrolleri",
+    "Servisler","başlatıldı","yeni","pencerede","başlatıyorum","Vite","Dokumantasyonu"
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/.venv/**",
+    "**/dist/**",
+    "**/build/**"
+  ]
+}
