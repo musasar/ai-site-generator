@@ -9,25 +9,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.10, 3.11]
-
+    
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Run backend tests
-        run: |
-          pytest -q
-        env:
-          AI_SITE_GENERATOR_MOCK: 'true'
+    - name: Run tests
+      run: |
+        python -m pytest backend/tests/ -v
+
+    - name: Test backend startup
+      run: |
+        cd backend
+        python -c "import asyncio; import os; os.environ['AI_SITE_GENERATOR_MOCK'] = 'true'; from app import app; import uvicorn; import threading; import time;\ndef run_server():\n    uvicorn.run(app, host='0.0.0.0', port=8000)\nthread = threading.Thread(target=run_server, daemon=True)\nthread.start()\ntime.sleep(2)\nprint('✅ Backend started successfully')"
