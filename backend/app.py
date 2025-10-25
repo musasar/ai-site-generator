@@ -22,10 +22,10 @@ os.makedirs(sites_dir, exist_ok=True)
 app.mount("/sites", StaticFiles(directory=sites_dir), name="sites")
 
 @app.post("/generate")
-async def generate(prompt: str = Form(...)):
+async def generate(prompt: str = Form(...), template: str = Form("modern")):
     """Kullanıcı prompt'una göre web sitesi üretir (bloklayıcı iş parçacığında çalıştırılır)."""
     # generate_site çalışması bloklayıcı olabilir (subprocess). Threadpool'da çalıştırıyoruz.
-    site_name = await asyncio.to_thread(generate_site, prompt)
+    site_name = await asyncio.to_thread(generate_site, prompt, template)
     url = f"http://localhost:8000/sites/{site_name}/index.html"
     return {"status": "ok", "site": site_name, "url": url}
 

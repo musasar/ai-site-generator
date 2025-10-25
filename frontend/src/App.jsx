@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Preview from "./components/Preview";
+import "./App.css";
 
 export default function App() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState("modern");
 
   const handleGenerate = async () => {
     setLoading(true);
-    const formData = new FormData();
-    formData.append("prompt", prompt);
+  const formData = new FormData();
+  formData.append("prompt", prompt);
+  formData.append("template", selectedTemplate);
 
     try {
-      const res = await axios.post("http://localhost:8000/generate", formData);
+  const res = await axios.post("http://localhost:8000/generate", formData);
       setUrl(res.data.url);
     } catch (err) {
       console.error(err);
@@ -32,7 +35,22 @@ export default function App() {
         placeholder="örnek: kahve markası için modern web sitesi"
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
+        disabled={loading}
       />
+
+      <div className="template-selector">
+        <label htmlFor="template">Tema Stili:</label>
+        <select
+          id="template"
+          value={selectedTemplate}
+          onChange={(e) => setSelectedTemplate(e.target.value)}
+          disabled={loading}
+        >
+          <option value="modern">Modern</option>
+          <option value="classic">Classic</option>
+          <option value="creative">Creative</option>
+        </select>
+      </div>
 
       <button
         onClick={handleGenerate}
