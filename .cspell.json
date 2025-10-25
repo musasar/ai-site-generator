@@ -17,7 +17,16 @@
     "bulunamadı","bulundu","yükleyin","opsiyonel","modu","kullanılacak","kurmak",
     "başlatma","başlatılıyor","Sanal","ortam","oluştur","aktif","venv","Bağımlılıkları",
     "yükle","bağımlılıkları","yükleniyor","uvicorn","modülü","işlem","Kurulum","Kontrolleri",
-    "Servisler","başlatıldı","yeni","pencerede","başlatıyorum","Vite","Dokumantasyonu"
+    "Servisler","başlatıldı","yeni","pencerede","başlatıyorum","Vite","Dokumantasyonu",
+    
+    // English / technical words flagged by cSpell
+    "premium","Premium","guidance","Guidance","generated","generated_sites","candidates",
+    "structured","friendly","minimalist","creative","generation","generation","mapped","mapped_to",
+    "enriched","enrichment","Enrich","Falls","that","given","structured","picking",
+    "rounded","visible","BLUE","YELLOW","Foreground","Background","Fallback","visible",
+    "node","npm","npx","vite","Vite","localhost","127.0.0.1","main","requirements",
+    "Process","Processes","Process'leri","mock","MOCK","SITE","GENERATOR","visible","manually",
+    "Sleep","sleep","mapping","mapped","defines","Premium","Turkish","instruct","instructs"
   ],
   "ignorePaths": [
     "**/node_modules/**",
