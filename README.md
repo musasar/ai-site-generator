@@ -131,3 +131,13 @@ pytest -q
 ```
 
 The tests will create and remove temporary folders under `backend/generated_sites` and run quickly in mock mode.
+## Cleaning up generated sites
+The `generated_sites` folders contain the output created by the app and can be safely removed when you want to free disk space.
+To remove all generated sites created during development run (PowerShell):
+```powershell
+# remove primary generated_sites (used by app mounting)
+Remove-Item -Recurse -Force .\backend\generated_sites\* -ErrorAction SilentlyContinue
+# also remove any nested generated sites (some runs created backend/backend/generated_sites)
+Remove-Item -Recurse -Force .\backend\backend\generated_sites\* -ErrorAction SilentlyContinue
+```
+To avoid committing generated output to git, a `.gitignore` entry was added for these folders.

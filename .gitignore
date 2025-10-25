@@ -1,0 +1,15 @@
+# Ignore generated sites (these are outputs produced by the app)
+backend/generated_sites/
+backend/backend/generated_sites/
+
+# Python artifacts
+.venv/
+__pycache__/
+*.py[cod]
+
+# Node
+node_modules/
+dist/
+
+# Misc
+.DS_Store
