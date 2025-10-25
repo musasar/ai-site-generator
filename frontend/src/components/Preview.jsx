@@ -21,6 +21,9 @@ export default function Preview({ url }) {
           setError("iframe yüklenirken hata oluştu");
         }}
       />
+      <div className="preview-actions">
+        <a href={url} target="_blank" rel="noreferrer" className="open-link">Yeni pencerede aç</a>
+      </div>
     </div>
   );
 }

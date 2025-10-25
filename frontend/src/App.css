@@ -48,6 +48,25 @@ button {
   font-weight: 600;
 }
 
+.prompt-area { width: 100%; max-width: 38rem; }
+.examples { margin-top: 0.5rem; display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center }
+.examples span { font-weight:600; margin-right:0.5rem }
+.example-btn { background:#f3f4f6; border:1px solid #e5e7eb; padding:6px 10px; border-radius:6px; cursor:pointer }
+.example-btn:disabled { opacity:0.6; cursor:not-allowed }
+.meta-row { display:flex; justify-content:space-between; margin-top:0.5rem; color:#666 }
+.hint { opacity:0.8 }
+
+.actions { display:flex; align-items:center }
+.secondary { background:#eaeefb; color:#1f2937; border:1px solid #dbeafe }
+.error-box { margin-top:12px; background:#ffecec; color:#9b2c2c; padding:8px 12px; border-radius:6px }
+.success-box { margin-top:12px; background:#ecfdf5; color:#065f46; padding:8px 12px; border-radius:6px }
+.ok { font-weight:600 }
+.url-row { display:flex; gap:8px; align-items:center; margin:8px 0 }
+.url-row a { color:#2563eb; word-break:break-all }
+
+.preview-actions { position:absolute; bottom:8px; right:8px; z-index:60 }
+.open-link { background:#111827; color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none }
+
 .loading-overlay {
   position: fixed;
   top: 0; left: 0;
