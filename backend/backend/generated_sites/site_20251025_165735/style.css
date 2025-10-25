@@ -1,0 +1,111 @@
+Here's a simple CSS design for a modern website theme for a coffee brand:
+
+**Style.css**
+```css
+/* Variables */
+$primary-color: #2E4053; /* Main color, dark blue */
+$secondary-color: #F7DC6F; /* Secondary color, yellow-orange */
+$text-color: #333; /* Text color, dark gray */
+$background-color: #F5F5F5; /* Background color, light gray */
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: $text-color;
+  background-color: $background-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $primary-color;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* Header styles */
+.header {
+  background-color: $primary-color;
+  padding: 15px;
+  text-align: center;
+}
+
+.header img {
+  width: 100%;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.menu a {
+  color: $text-color;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  color: $secondary-color;
+}
+
+/* Hero section styles */
+.hero {
+  background-image: linear-gradient(to bottom, $primary-color, #333);
+  padding: 100px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 36px;
+  color: #fff;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+/* Footer styles */
+.footer {
+  background-color: $primary-color;
+  padding: 15px;
+  text-align: center;
+  clear: both;
+}
+
+.footer p {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+```
+This style.css file includes the following:
+
+1. Variables for colors and background, which can be easily changed.
+2. Global styles (e.g., font family, line height) to set up the overall look of the website.
+3. Header styles, including a navigation menu with hover effects.
+4. Hero section styles, featuring a gradient background and centered content.
+5. Footer styles, with a dark blue background and white text.
+
+Feel free to modify this code to fit your specific design needs!
