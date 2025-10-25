@@ -2,81 +2,76 @@
 
 # AI Site Generator - PowerShell Başlatma Scripti
 
-# Renkli çıktılar
-$GREEN = "`e[32m"
-$BLUE = "`e[34m"
-$YELLOW = "`e[33m"
-$RED = "`e[31m"
-$NC = "`e[0m"
-
-Write-Host "$BLUE AI Site Generator - Başlatılıyor... $NC"
+Write-Host "AI Site Generator - Başlatılıyor..." -ForegroundColor Cyan
 Write-Host "=========================================="
 
 # Python kontrolü
 function Check-Python {
-    Write-Host "$YELLOW Python kontrol ediliyor... $NC"
+    Write-Host "Python kontrol ediliyor..." -ForegroundColor Yellow
     try {
         $pythonVersion = python --version 2>&1
         if ($LASTEXITCODE -ne 0) {
             throw "Python bulunamadı"
         }
-        Write-Host "$GREEN✅ Python bulundu: $pythonVersion$NC"
+    Write-Host "Python bulundu: $pythonVersion" -ForegroundColor Green
     } catch {
-        Write-Host "$RED❌ Python bulunamadı! Lütfen Python 3.8+ yükleyin.$NC"
+    Write-Host "Python bulunamadı! Lütfen Python 3.8+ yükleyin." -ForegroundColor Red
         exit 1
     }
 }
 
 # Node.js kontrolü
 function Check-Node {
-    Write-Host "$YELLOW Node.js kontrol ediliyor... $NC"
+    Write-Host "Node.js kontrol ediliyor..." -ForegroundColor Yellow
     try {
         $nodeVersion = node --version
-        Write-Host "$GREEN✅ Node.js bulundu: $nodeVersion$NC"
+    Write-Host "Node.js bulundu: $nodeVersion" -ForegroundColor Green
     } catch {
-        Write-Host "$RED❌ Node.js bulunamadı! Lütfen Node.js yükleyin.$NC"
+    Write-Host "Node.js bulunamadı! Lütfen Node.js yükleyin." -ForegroundColor Red
         exit 1
     }
 }
 
 # Ollama kontrolü (opsiyonel)
 function Check-Ollama {
-    Write-Host "$YELLOW Ollama kontrol ediliyor... $NC"
+    Write-Host "Ollama kontrol ediliyor..." -ForegroundColor Yellow
     try {
         $null = Get-Command ollama -ErrorAction Stop
-        Write-Host "$GREEN✅ Ollama bulundu$NC"
+    Write-Host "Ollama bulundu" -ForegroundColor Green
     } catch {
-        Write-Host "$YELLOW⚠️  Ollama bulunamadı. Mock modu kullanılacak.$NC"
-        Write-Host "$YELLOW   Ollama kurmak için: https://ollama.ai/$NC"
+    Write-Host "Ollama bulunamadı. Mock modu kullanılacak." -ForegroundColor Yellow
+    Write-Host "Ollama kurmak için: https://ollama.ai/" -ForegroundColor Yellow
         $env:AI_SITE_GENERATOR_MOCK = "true"
     }
 }
 
 # Backend başlatma
 function Start-Backend {
-    Write-Host "$YELLOW Backend başlatılıyor... $NC"
+    Write-Host "Backend başlatılıyor..." -ForegroundColor Yellow
     
     # Sanal ortam oluştur/aktif et
     if (!(Test-Path ".venv")) {
-    Write-Host "$YELLOW Sanal ortam oluşturuluyor... $NC"
+        Write-Host "Sanal ortam oluşturuluyor..." -ForegroundColor Yellow
         python -m venv .venv
     }
     
     .\.venv\Scripts\Activate.ps1
     
     # Bağımlılıkları yükle
-    Write-Host "$YELLOW Python bağımlılıkları yükleniyor... $NC"
+    Write-Host "Python bağımlılıkları yükleniyor..." -ForegroundColor Yellow
     pip install -r requirements.txt
     
     # Backend'i başlat (venv içindeki python'u kullan, uvicorn modülü ile)
-    Write-Host "$GREEN Backend başlatılıyor: http://localhost:8000 $NC"
+    Write-Host "Backend başlatılıyor: http://localhost:8000" -ForegroundColor Green
     $venvPython = Join-Path -Path (Get-Location) -ChildPath ".venv\Scripts\python.exe"
     if (Test-Path $venvPython) {
-        Start-Process -NoNewWindow -FilePath $venvPython -ArgumentList "-m uvicorn backend.app:app --reload"
+        $cmd = "& `"$venvPython`" -m uvicorn backend.app:app --reload --host 0.0.0.0 --port 8000"
     } else {
         # Fallback to system python
-        Start-Process -NoNewWindow -FilePath "python" -ArgumentList "-m uvicorn backend.app:app --reload"
+        $cmd = "& python -m uvicorn backend.app:app --reload --host 0.0.0.0 --port 8000"
     }
+    # Start backend in a new PowerShell window so logs are visible
+    Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", $cmd
 }
 
 # Ana işlem
@@ -85,11 +80,16 @@ Check-Python
 Check-Node
 Check-Ollama
 
-Write-Host "`n$BLUE Servisler Başlatılıyor... $NC"
+Write-Host "`nServisler Başlatılıyor..." -ForegroundColor Cyan
 Start-Backend
 
-Write-Host "`n$GREEN Backend başlatıldı! Frontend başlatmak için:$NC"
-Write-Host "$BLUE cd frontend && npm install && npm run dev$NC"
-Write-Host "$BLUE Frontend: ${GREEN}http://localhost:5173${NC}"
-Write-Host "$BLUE Backend API: ${GREEN}http://localhost:8000${NC}"
-Write-Host "$BLUE API Dokumantasyonu: ${GREEN}http://localhost:8000/docs${NC}"
+Write-Host "`nBackend başlatıldı (yeni pencerede). Frontend'i başlatıyorum..." -ForegroundColor Green
+
+# Start frontend in a new window so Vite logs are visible
+$frontendCmd = "cd `"$(Join-Path (Get-Location) 'frontend')`"; npm install; npm run dev"
+Start-Process -FilePath "powershell" -ArgumentList "-NoExit", "-Command", $frontendCmd
+
+Write-Host "Frontend should open in a new window. If not, run 'cd frontend; npm run dev' manually." -ForegroundColor Cyan
+Write-Host "Frontend: http://localhost:5173" -ForegroundColor Blue
+Write-Host "Backend API: http://localhost:8000" -ForegroundColor Blue
+Write-Host "API Dokumantasyonu: http://localhost:8000/docs" -ForegroundColor Blue
