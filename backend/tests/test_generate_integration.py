@@ -1,6 +1,12 @@
 import os
 import shutil
+import sys
 import pytest  # type: ignore[reportMissingImports]
+
+# Ensure repository root is on sys.path so tests can import backend.* when run from CI or locally
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
 from backend.site_generator import generate_site
 

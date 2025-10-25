@@ -141,3 +141,38 @@ Remove-Item -Recurse -Force .\backend\generated_sites\* -ErrorAction SilentlyCon
 Remove-Item -Recurse -Force .\backend\backend\generated_sites\* -ErrorAction SilentlyContinue
 ```
 To avoid committing generated output to git, a `.gitignore` entry was added for these folders.
+
+## 🚀 Hızlı Başlangıç (script'lerle)
+
+Projeyi tek komutla başlatmak için iki yardımcı script ekledim:
+
+- `start-project.sh` — Linux / macOS için (bash)
+- `start-project.ps1` — Windows PowerShell için
+
+Kullanım:
+
+Linux / macOS:
+```bash
+chmod +x start-project.sh
+./start-project.sh
+```
+
+Windows (PowerShell):
+```powershell
+.\start-project.ps1
+```
+
+Script'ler şu işleri yapar:
+- Python ve Node.js kontrolleri
+- Ollama yoksa mock modu etkinleştirme
+- Sanal ortam oluşturma ve bağımlılık yükleme (backend)
+- Backend ve frontend servislerini başlatma
+
+Alternatif (manuel) başlatma:
+```bash
+# Backend
+python backend/app.py
+
+# Frontend (yeni terminal)
+cd frontend && npm install && npm run dev
+```
