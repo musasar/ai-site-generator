@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Preview from "./components/Preview";
 
 export default function App() {
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
-  const [path, setPath] = useState("");
+  const [url, setUrl] = useState("");
 
   const handleGenerate = async () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("prompt", prompt);
 
-    const res = await axios.post("http://localhost:8000/generate", formData);
-    setPath(res.data.path);
-    setLoading(false);
+    try {
+      const res = await axios.post("http://localhost:8000/generate", formData);
+      setUrl(res.data.url);
+    } catch (err) {
+      console.error(err);
+      alert("Oluşturma sırasında hata oldu. Konsolu kontrol edin.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,10 +42,10 @@ export default function App() {
         {loading ? "Oluşturuluyor..." : "Site Oluştur"}
       </button>
 
-      {path && (
-        <div className="mt-6">
-          <p>✅ Site oluşturuldu!</p>
-          <p>Klasör: <code>{path}</code></p>
+      {url && (
+        <div className="mt-6 w-full flex flex-col items-center">
+          <p>✅ Site oluşturuldu! Önizleme aşağıda.</p>
+          <Preview url={url} />
         </div>
       )}
     </div>
