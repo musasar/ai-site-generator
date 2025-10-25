@@ -1,6 +1,6 @@
 import os
 import shutil
-import pytest
+import pytest  # type: ignore[reportMissingImports]
 
 from backend.site_generator import generate_site
 

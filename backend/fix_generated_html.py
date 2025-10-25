@@ -5,16 +5,22 @@ Run from project root:
 """
 import glob
 import os
-from site_generator import _ensure_meta_in_head
+from backend.site_generator import _ensure_meta_in_head
+
+
+def find_generated_index_files(root_dir: str):
+    """Find index.html files under any generated_sites directory inside root_dir."""
+    pattern = os.path.join(root_dir, "**", "generated_sites", "**", "index.html")
+    return glob.glob(pattern, recursive=True)
 
 
 def main():
-    base = os.path.join("backend", "generated_sites")
-    pattern = os.path.join(base, "*", "index.html")
-    files = glob.glob(pattern)
+    root = os.getcwd()
+    files = find_generated_index_files(root)
     if not files:
         print("No generated index.html files found.")
         return
+
     for path in files:
         try:
             with open(path, "r", encoding="utf-8") as f:
