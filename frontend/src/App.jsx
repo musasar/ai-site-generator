@@ -10,6 +10,7 @@ export default function App() {
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("modern");
+  const [selectedPremium, setSelectedPremium] = useState("minimalist");
   const textareaRef = useRef(null);
 
   const examples = [
@@ -24,10 +25,12 @@ export default function App() {
     setLoading(true);
     const formData = new FormData();
     formData.append("prompt", prompt);
+    // send premium template_type for the new API; include legacy 'template' for fallback
+    formData.append("template_type", selectedPremium);
     formData.append("template", selectedTemplate);
 
     try {
-      const res = await axios.post("http://localhost:8000/generate", formData);
+      const res = await axios.post("http://localhost:8000/api/generate", formData);
       setUrl(res.data.url);
     } catch (err) {
       console.error(err);
@@ -94,6 +97,19 @@ export default function App() {
         >
           <option value="modern">Modern</option>
           <option value="classic">Classic</option>
+          <option value="creative">Creative</option>
+        </select>
+      </div>
+      <div className="template-selector">
+        <label htmlFor="template_type">Premium Tema:</label>
+        <select
+          id="template_type"
+          value={selectedPremium}
+          onChange={(e) => setSelectedPremium(e.target.value)}
+          disabled={loading}
+        >
+          <option value="minimalist">Minimalist (ücretsiz/deneme)</option>
+          <option value="kurumsal">Kurumsal</option>
           <option value="creative">Creative</option>
         </select>
       </div>
